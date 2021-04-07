@@ -6,13 +6,13 @@
   "keywords": [
     "fxy5869571"
   ],
-  "author": "fxy",
+  "author": "gkmg",
   "license": "ISC",
   "scripts": {
     "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "tsc&&ts-node  ./src/index.ts",
-    "watch": "nodemon --watch 'src/**/*' -e ts,tsx --exec ts-node ./src/index.ts"
+    "watch": "nodemon --watch './src/**/*' -e ts,tsx --exec ts-node ./src/index.ts"
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.3",

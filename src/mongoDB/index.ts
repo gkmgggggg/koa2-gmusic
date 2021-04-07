@@ -1,28 +1,24 @@
-import * as Mongoose from 'mongoose'
-const MongoClient = require('mongodb').MongoClient
-const Config = require('../config/index')
+import * as mongoose from 'mongoose'
+const Config = require('../config/index');
+(mongoose as any).Promise = global.Promise
+export const DB = mongoose
+export const { Schema } = DB
+// 数据库
+export const connect = () => {
+  // 连接数据库
+  // const DBpath = 'mongodb://127.0.0.1:27017/nmusic'
+  DB.connect(Config.DBpath)
+  // 连接错误
+  DB.connection.on('error', error => {
+    // tslint:disable-next-line
+    console.error('数据库连接失败!', error)
+  })
 
-class Db {
-  static dbClient: any = null
-  constructor() {
-    Db.dbClient = this.connect()
-  }
+  // 连接成功
+  DB.connection.once('open', () => {
+    // tslint:disable-next-line
+    console.log('数据库连接成功!')
+  })
 
-  connect() {
-    return new Promise((resolve, reject) => {
-      if (Db.dbClient) resolve(Db.dbClient)
-      MongoClient.connect(Config.DBpath, {
-        useUnifiedTopology: true
-      }, (err: any, client: any) => {
-        if (err) reject(err)
-        const db = client.db(Config.dbName)
-        resolve(db)
-        console.log(`连接数据库成功`);
-      })
-    })
-  }
+  return DB
 }
-
-export const db = new Db()
-export const mongoose = Mongoose
-export const { Schema } = Mongoose

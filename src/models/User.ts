@@ -1,4 +1,4 @@
-import { mongoose, Schema } from '../mongoDB/index'
+import { DB, Schema } from '../mongoDB/index'
 
 const userSchema = new Schema({
   id: String,
@@ -12,6 +12,6 @@ const userSchema = new Schema({
   address: String,
   email: String
 })
-const User = mongoose.model('user', userSchema)
+const User = DB.model('user', userSchema, 'user')
 
 export default User

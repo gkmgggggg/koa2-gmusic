@@ -4,7 +4,17 @@ import * as koaBodyparser from 'koa-bodyparser'
 import * as cors from 'koa2-cors'
 import errorHandle from './middleware/errorHandle'
 import router from './router'
+import * as mongoDB from './mongoDB'
+mongoDB.connect()
 const app = new koa()
+
+app.use(async (ctx, next) => {
+  const start = new Date()
+  await next()
+  const ms = Number(new Date()) - Number(start)
+  console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
+})
+
 app
   .use(
     cors({
