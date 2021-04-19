@@ -18,7 +18,6 @@ export default class commomController {
 
   public static getBanners = async (ctx: Context) => {
     let res = await TagHelper.findBanners()
-
     ctx.body = {
       res
     }

@@ -6,7 +6,7 @@ export default class UserController {
   public static queryUser = async (ctx: Context) => {
     const res = await UserHelper.findUser()
     ctx.body = {
-      msg: '没有任何用户!!!!'
+      msg: '没有任何用户!!!!!!'
     }
 
     // ctx.body = { res }
