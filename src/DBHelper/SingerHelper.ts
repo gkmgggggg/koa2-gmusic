@@ -1,10 +1,4 @@
 import { Singer } from '../models/index'
-
-interface IUser {
-  account: String,
-  password: String
-}
-
 interface pageParams {
   offset: number,
   limit: number,

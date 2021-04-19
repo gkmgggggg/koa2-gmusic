@@ -27,7 +27,7 @@ export default class SingerController {
 
   public static getSingerDetail = async (ctx: Context) => {
     const {
-      id
+      id = "f"
     } = ctx.query
 
     let res: any = await SingerHelper.findSinger(id)
