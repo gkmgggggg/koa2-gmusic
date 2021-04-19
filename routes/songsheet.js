@@ -11,8 +11,8 @@ const verify = Promise.promisify(jwt.verify);
 router.get('/playlist', async (ctx, next) => {
   const {
     offset = 0,
-      limit = 40,
-      cat = '全部',
+    limit = 40,
+    cat = '全部',
   } = ctx.query
   let res = ''
   if (cat != '全部') res = await db.songSheetFilter('playlist', cat, offset, limit);
