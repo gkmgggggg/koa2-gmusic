@@ -2,15 +2,10 @@ import { Context } from 'koa'
 import DBHelper from '../DBHelper'
 const { TagHelper } = DBHelper
 
-export default class commomController {
+export default class CommomController {
   public static getTags = async (ctx: Context) => {
-    const { hot } = ctx.query
-    let res = null
-    if (hot && Number(hot) === -1) {
-      res = await TagHelper.findTags(-1)
-    } else {
-      res = await TagHelper.findTags()
-    }
+    const { hot = 0 } = ctx.query
+    let res = Number(hot) === -1 ? await TagHelper.findTags(-1) : await TagHelper.findTags()
     ctx.body = {
       res
     }
