@@ -2,7 +2,7 @@ import { DB, Schema } from '../mongoDB/index'
 
 const singerSchema = new Schema({
   id: Number,
-  name: String, //账号 --- 手机号
+  name: String, // 账号 --- 手机号
   type: Number,
   area: Number,
   mvSize: Number,

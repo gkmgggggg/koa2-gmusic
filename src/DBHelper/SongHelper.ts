@@ -14,17 +14,14 @@ export default class SongHelper {
     return new Promise((resolve, reject) => {
       PlayList.find({}, async (err, doc) => {
         if (err) {
-          reject({
-            status: 10045,
-            msg: '出现错误!'
-          })
+          reject(err)
         }
-        let total = doc.length
+        const total = doc.length
         const data: any = await PlayList.find({ tags: { $elemMatch: { $eq: params.tag } } }).skip(params.offset * params.limit).limit(params.limit)
 
         resolve({
           status: 10001,
-          msg: "请求成功!",
+          msg: '请求成功!',
           data,
           total,
           hasMore: '是否有更多数据'
@@ -37,6 +34,7 @@ export default class SongHelper {
    * @method 数据库获取歌曲数据
    */
   public static findSong = async (id: string) => {
+    // eslint-disable-next-line no-async-promise-executor
     return new Promise(async (resolve, reject) => {
       const song = await Song.findOne({ id: Number(id) })
       resolve(song)
@@ -53,9 +51,9 @@ export default class SongHelper {
  * @method 数据库获取歌曲列表数据
  */
   public static findSongList = async (ids: string) => {
-    let idList: string[] = ids.split(',')
+    const idList: string[] = ids.split(',')
     idList.map(item => Number(item))
-    let data = await Song.find({ id: { $in: idList } })
+    const data = await Song.find({ id: { $in: idList } })
     return data
   }
 
@@ -63,11 +61,10 @@ export default class SongHelper {
    * @method 数据库获取榜单类型的歌单
    */
   public static findRank = async () => {
-    let data = PlayList.find({
+    const data = PlayList.find({
       creatorId: null
     })
     console.log(data)
     return data
   }
-
 }

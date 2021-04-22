@@ -2,7 +2,7 @@ import { DB, Schema } from '../mongoDB/index'
 
 const userSchema = new Schema({
   id: String,
-  account: String, //账号 --- 手机号
+  account: String, // 账号 --- 手机号
   password: String,
   avatarUrl: String,
   level: Number,

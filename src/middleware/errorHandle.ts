@@ -6,7 +6,7 @@ const errorHandle = async (ctx: Context, next: any) => {
       ctx.status = 401
       ctx.body = {
         message: '游客只有浏览的权限',
-        type: 'error',
+        type: 'error'
       }
     } else {
       throw err

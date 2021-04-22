@@ -2,7 +2,7 @@ import { DB, Schema } from '../mongoDB/index'
 
 const playlistSchema = new Schema({
   id: String,
-  name: String, //账号 --- 手机号
+  name: String, // 账号 --- 手机号
   description: String,
   tags: Array,
   songList: Array,

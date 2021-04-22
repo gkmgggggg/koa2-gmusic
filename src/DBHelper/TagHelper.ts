@@ -15,7 +15,7 @@ export default class TagHelper {
   }
 
   public static findBanners = async () => {
-    let data = await Banner.find()
+    const data = await Banner.find()
     return {
       status: 10001,
       data

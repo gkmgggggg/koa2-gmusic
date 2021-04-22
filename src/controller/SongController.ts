@@ -30,7 +30,7 @@ export default class SongController {
   public static getSongList = async (ctx: Context) => {
     const { ids } = ctx.query
 
-    let data = await SongHelper.findSongList(ids)
+    const data = await SongHelper.findSongList(ids)
     ctx.body = {
       status: 10001,
       msg: '请求成功',

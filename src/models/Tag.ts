@@ -4,7 +4,7 @@ const tagSchema = new Schema({
   name: String,
   type: Number,
   category: Number,
-  hot: Boolean,
+  hot: Boolean
 })
 const Tag = DB.model('tag', tagSchema, 'tag')
 

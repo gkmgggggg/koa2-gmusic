@@ -2,8 +2,8 @@ import { Singer } from '../models/index'
 interface pageParams {
   offset: number,
   limit: number,
-  type: number, //0全部 1男歌手，2女歌手，3乐队
-  area: number //-1全部 7华语，96欧美，8日本，16韩国，0其他
+  type: number, // 0全部 1男歌手，2女歌手，3乐队
+  area: number // -1全部 7华语，96欧美，8日本，16韩国，0其他
 }
 
 interface singerParams {
@@ -13,7 +13,7 @@ interface singerParams {
 
 export default class SingerHelper {
   public static findSingerList = async (params: pageParams) => {
-    let dbParams: singerParams = {}
+    const dbParams: singerParams = {}
     if (params.type !== 0) dbParams.type = params.type
     if (params.area !== -1) dbParams.area = params.area
 
