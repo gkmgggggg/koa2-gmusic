@@ -37,4 +37,43 @@ export default class SongController {
       data
     }
   }
+
+  public static getRecommendSong = async (ctx:Context) => {
+    const res = await SongHelper.findRecommendSong()
+    if (res.success) {
+      ctx.body = {
+        success: true,
+        status: 200,
+        data: res.data,
+        msg: '请求成功'
+      }
+      return
+    }
+    ctx.body = {
+      success: true,
+      status: 200,
+      data: res.data,
+      msg: '请求失败'
+    }
+  }
+
+  public static getSongDetail = async (ctx:Context) => {
+    const { ids } = ctx.query
+    const res = await SongHelper.findSongDetail(ids)
+    if (res.success) {
+      ctx.body = {
+        success: true,
+        status: 200,
+        data: res.data,
+        msg: '请求成功'
+      }
+      return
+    }
+    ctx.body = {
+      success: true,
+      status: 200,
+      data: null,
+      msg: '请求失败'
+    }
+  }
 }

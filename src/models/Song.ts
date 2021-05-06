@@ -9,6 +9,6 @@ const songSchema = new Schema({
   artistId: Number,
   url: String
 })
-const Song = DB.model('song', songSchema, 'songs')
+const Song = DB.model('song', songSchema, 'song')
 
 export default Song

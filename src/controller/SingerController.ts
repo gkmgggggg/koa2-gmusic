@@ -18,22 +18,101 @@ export default class SingerController {
       area: Number(area)
     }
 
-    const res: any = await SingerHelper.findSingerList(params)
+    const res = await SingerHelper.findSingerList(params)
 
+    if (res.success) {
+      ctx.body = {
+        success: true,
+        status: 200,
+        msg: '成功获取数据',
+        data: res.data
+      }
+      return
+    }
     ctx.body = {
-      res
+      success: false,
+      status: 400,
+      msg: '成功获取数据',
+      data: null
     }
   }
 
   public static getSingerDetail = async (ctx: Context) => {
-    const {
-      id = 'f'
-    } = ctx.query
-
-    const res: any = await SingerHelper.findSinger(id)
-
+    const { id } = ctx.query
+    const res = await SingerHelper.findSinger(id)
+    if (res.success) {
+      ctx.body = {
+        success: true,
+        status: 200,
+        msg: '成功获取数据',
+        data: res.data
+      }
+      return
+    }
     ctx.body = {
-      res
+      success: false,
+      status: 400,
+      msg: '获取数据失败',
+      data: null
+    }
+  }
+
+  public static getRecommendSinger = async (ctx:Context) => {
+    const res = await SingerHelper.findRecommendSinger()
+    if (res.success) {
+      ctx.body = {
+        success: true,
+        status: 200,
+        msg: '成功获取数据',
+        data: res.data
+      }
+      return
+    }
+    ctx.body = {
+      success: false,
+      status: 400,
+      msg: '成功获取数据',
+      data: null
+    }
+  }
+
+  public static getSingerSong = async (ctx: Context) => {
+    const { id } = ctx.query
+    const res = await SingerHelper.findSingerSong(id)
+    if (res.success) {
+      ctx.body = {
+        success: true,
+        status: 200,
+        msg: '成功获取数据',
+        data: res.data
+      }
+      return
+    }
+    ctx.body = {
+      success: false,
+      status: 400,
+      msg: '成功获取数据',
+      data: null
+    }
+  }
+
+  public static getSingerAlbum = async (ctx:Context) => {
+    const { id } = ctx.query
+    const res = await SingerHelper.findSingerAlbum(id)
+    if (res.success) {
+      ctx.body = {
+        success: true,
+        status: 200,
+        msg: '成功获取数据',
+        data: res.data
+      }
+      return
+    }
+    ctx.body = {
+      success: false,
+      status: 400,
+      msg: '成功获取数据',
+      data: null
     }
   }
 }

@@ -3,17 +3,36 @@ import {
   UserController,
   SongController,
   CommomController,
-  SingerController
+  SingerController,
+  playlistController
 } from '../controller/index'
 const router = new KoaRouter()
 
-router.get('/api/findUser', UserController.queryUser)
 router.get('/api/findPlayList', SongController.getAllPlayList)
 router.get('/api/getSong', SongController.getSongList)
 router.get('/api/getRank', SongController.getRankList)
-router.get('/api/getTags', CommomController.getTags)
 router.get('/api/banner', CommomController.getBanners)
 router.get('/api/querySingerList', SingerController.getSingerList)
-router.get('/api/querySinger', SingerController.getSingerDetail)
+
+router.get('/api/song/recommend', SongController.getRecommendSong)
+router.get('/api/song/detail', SongController.getSongDetail)
+
+router.get('/api/playlist', playlistController.getPlaylist)
+router.get('/api/playlist/rank', playlistController.getRank)
+router.get('/api/playlist/recommend', playlistController.getRecommend)
+router.get('/api/playlist/tag', CommomController.getTags)
+router.get('/api/playlist/detail', playlistController.getDetail)
+
+router.get('/api/singer/recommend', SingerController.getRecommendSinger)
+router.get('/api/singer/list', SingerController.getSingerList)
+router.get('/api/singer/song', SingerController.getSingerSong)
+router.get('/api/singer/detail', SingerController.getSingerDetail)
+router.get('/api/singer/album', SingerController.getSingerAlbum)
+
+router.get('/api/user/login', UserController.Login)
+router.post('/api/user/register', UserController.Register)
+router.get('/api/user/info', UserController.getUserInfo)
+router.get('/api/user/collectSong', UserController.getCollectSong)
+router.get('/api/user/collectPlaylist', UserController.getCollectPlaylist)
 
 export default router

@@ -1,4 +1,4 @@
-import { Singer } from '../models/index'
+import { Album, Singer, Song } from '../models/index'
 interface pageParams {
   offset: number,
   limit: number,
@@ -14,25 +14,87 @@ interface singerParams {
 export default class SingerHelper {
   public static findSingerList = async (params: pageParams) => {
     const dbParams: singerParams = {}
-    if (params.type !== 0) dbParams.type = params.type
+    if (params.type !== -1) dbParams.type = params.type
     if (params.area !== -1) dbParams.area = params.area
 
     const total = await Singer.count(dbParams)
-    const data = await Singer.find(dbParams).skip(params.limit * params.offset).limit(params.limit)
-    const hasMore = Number(total) > params.limit * params.offset + data.length
+    const singerData = await Singer.find(dbParams).skip(params.offset).limit(params.limit)
+    const hasMore = Number(total) > params.offset + singerData.length
     return {
-      status: 10001,
-      data,
-      total,
-      hasMore
+      success: true,
+      data: {
+        total,
+        hasMore,
+        data: singerData
+      }
     }
   }
 
   public static findSinger = async (id: number) => {
-    const data = await Singer.findOne({ id: Number(id) })
-    return {
-      status: 10001,
-      data
+    try {
+      const data = await Singer.findOne({ id: Number(id) })
+      return {
+        success: true,
+        data,
+        msg: '成功调用接口!!!'
+      }
+    } catch (error) {
+      return {
+        success: false,
+        data: {},
+        msg: error.message || '数据交互时发生错误!!!'
+      }
+    }
+  }
+
+  public static findRecommendSinger = async () => {
+    try {
+      const data = await Singer.find().limit(20)
+      return {
+        success: true,
+        data,
+        msg: '成功调用接口!!!'
+      }
+    } catch (error) {
+      return {
+        success: false,
+        data: {},
+        msg: error.message || '数据交互时发生错误!!!'
+      }
+    }
+  }
+
+  public static findSingerSong = async (id: number) => {
+    try {
+      const data = await Song.find({ artistId: Number(id) }).limit(50)
+      return {
+        success: true,
+        data,
+        msg: '成功调用接口!!!'
+      }
+    } catch (error) {
+      return {
+        success: false,
+        data: {},
+        msg: error.message || '数据交互时发生错误!!!'
+      }
+    }
+  }
+
+  public static findSingerAlbum = async (id: number) => {
+    try {
+      const data = await Album.find({ artistId: Number(id) }).limit(50)
+      return {
+        success: true,
+        data,
+        msg: '成功调用接口!!!'
+      }
+    } catch (error) {
+      return {
+        success: false,
+        data: {},
+        msg: error.message || '数据交互时发生错误!!!'
+      }
     }
   }
 }

@@ -1,4 +1,7 @@
-import { Song, PlayList } from '../models/index'
+import { Song, PlayList, Singer } from '../models/index'
+// const bluebird = require('bluebird')
+// const jwt = require('jsonwebtoken')
+// const verify = bluebird.promisify(jwt.verify)
 
 interface PlayListParams {
   offset: number,
@@ -66,5 +69,71 @@ export default class SongHelper {
     })
     console.log(data)
     return data
+  }
+
+  public static findRecommendSong = async () => {
+    try {
+      const data = await Song.find().limit(10)
+      console.log(data)
+      return {
+        success: true,
+        data,
+        msg: '成功调用接口!!!'
+      }
+    } catch (error) {
+      return {
+        success: false,
+        data: {},
+        msg: error.message || '数据交互时发生错误!!!'
+      }
+    }
+  }
+
+  public static findSongDetail = async (ids:string) => {
+    try {
+      const songIds = ids.split(',')
+      const data = []
+      for (const id of songIds) {
+        const song:any = await Song.findOne({ id: parseInt(id) })
+        if (song && song.artistId) {
+          const artist = await Singer.findOne({ id: parseInt(song.artistId) })
+          data.push({ song, artist })
+
+          // 判断歌曲是否被收藏
+          // const token = ctx.request.headers.token
+          // if (token !== null) {
+          //   const secret = 'I_LOVE_NICEMUSIC'
+          //   const payload = await verify(token, secret)
+          //   const {
+          //     phone,
+          //     password
+          //   } = payload
+          //   let isCollected = false
+          //   const user = await db.findOne('user', {
+          //     account: phone.toString()
+          //   })
+          //   if (user !== null) {
+          //     const result = await db.findOne('user_to_song', {
+          //       artistId: ObjectId(user._id),
+          //       songId: song.id.toString()
+          //     })
+          //     if (result !== null) isCollected = true
+          //   }
+          //   song.isCollected = isCollected
+          // }
+        }
+      }
+      return {
+        success: true,
+        data,
+        msg: '成功调用接口!!!'
+      }
+    } catch (error) {
+      return {
+        success: false,
+        data: {},
+        msg: error.message || '数据交互时发生错误!!!'
+      }
+    }
   }
 }

@@ -6,5 +6,7 @@ import Banner from './Banner'
 import Singer from './Singer'
 import Mv from './Mv'
 import Album from './Album'
+import UserToPlaylist from './UserToPlaylist'
+import UserToSong from './UserToSong'
 
-export { User, PlayList, Song, Tag, Banner, Singer, Mv, Album }
+export { User, PlayList, Song, Tag, Banner, Singer, Mv, Album, UserToPlaylist, UserToSong }

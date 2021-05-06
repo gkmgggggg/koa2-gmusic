@@ -13,6 +13,6 @@ const singerSchema = new Schema({
   briefDesc: String,
   introduction: Array
 })
-const Singer = DB.model('singer', singerSchema, 'singers')
+const Singer = DB.model('singer', singerSchema, 'singer')
 
 export default Singer

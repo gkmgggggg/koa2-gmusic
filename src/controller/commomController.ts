@@ -6,15 +6,39 @@ export default class CommomController {
   public static getTags = async (ctx: Context) => {
     const { hot = 0 } = ctx.query
     const res = Number(hot) === -1 ? await TagHelper.findTags(-1) : await TagHelper.findTags()
+    if (res.success) {
+      ctx.body = {
+        success: true,
+        status: 200,
+        msg: '成功获取数据',
+        data: res.data
+      }
+      return
+    }
     ctx.body = {
-      res
+      success: true,
+      status: 400,
+      msg: '未成功获取数据',
+      data: {}
     }
   }
 
   public static getBanners = async (ctx: Context) => {
-    const res = await TagHelper.findBanners()
+    const data = await TagHelper.findBanners()
+    if (data.success) {
+      ctx.body = {
+        success: true,
+        status: 200,
+        msg: '成功获取数据',
+        data: data.data
+      }
+      return
+    }
     ctx.body = {
-      res
+      success: true,
+      status: 400,
+      msg: '未成功获取数据',
+      data: {}
     }
   }
 }
