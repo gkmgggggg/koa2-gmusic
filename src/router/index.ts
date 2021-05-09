@@ -30,9 +30,13 @@ router.get('/api/singer/detail', SingerController.getSingerDetail)
 router.get('/api/singer/album', SingerController.getSingerAlbum)
 
 router.get('/api/user/login', UserController.Login)
-router.post('/api/user/register', UserController.Register)
 router.get('/api/user/info', UserController.getUserInfo)
 router.get('/api/user/collectSong', UserController.getCollectSong)
 router.get('/api/user/collectPlaylist', UserController.getCollectPlaylist)
+router.post('/api/user/collect/song', UserController.collectSong)
+router.post('/api/user/collect/playlist', UserController.collectPlaylist)
+router.post('/api/user/delete/song', UserController.deleteSong)
+router.post('/api/user/delete/playlist', UserController.deletePlaylist)
+router.post('/api/user/register', UserController.Register)
 
 export default router

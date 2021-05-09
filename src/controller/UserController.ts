@@ -1,6 +1,7 @@
 import { Context } from 'koa'
 import DBHelper from '../DBHelper'
-const { UserHelper } = DBHelper
+import PlayListHelper from '../DBHelper/PlaylistHelper'
+const { UserHelper, SongHelper } = DBHelper
 
 export default class UserController {
   public static Login = async (ctx:Context) => {
@@ -66,7 +67,9 @@ export default class UserController {
 
   public static getCollectSong = async (ctx: Context) => {
     const { id } = ctx.query
-    const res = await UserHelper.findUserSong({ id })
+    const { songIds } = await UserHelper.findUserSongIds({ id })
+    const ids = songIds.map((item:any) => item.songId).join(',')
+    const res = await SongHelper.findSongDetail(ids)
     if (res.success) {
       ctx.body = {
         success: true,
@@ -86,7 +89,88 @@ export default class UserController {
 
   public static getCollectPlaylist = async (ctx: Context) => {
     const { id } = ctx.query
-    const res = await UserHelper.findUserPlaylist({ id })
+    const { playlistIds } = await UserHelper.findUserPlaylist({ id })
+    const res = await PlayListHelper.findPlaylistsDetail(playlistIds)
+    if (res.success) {
+      ctx.body = {
+        success: true,
+        status: 200,
+        msg: '成功',
+        data: res.data
+      }
+      return
+    }
+    ctx.body = {
+      success: false,
+      status: 400,
+      msg: '失败',
+      data: null
+    }
+  }
+
+  public static collectSong = async (ctx: Context) => {
+    const { uid, sid } = await ctx.request.body // 获取用户id和歌曲id
+    const res = await UserHelper.createUserSong({ uid, sid })
+    if (res.success) {
+      ctx.body = {
+        success: true,
+        status: 200,
+        msg: '成功',
+        data: res.data
+      }
+      return
+    }
+    ctx.body = {
+      success: false,
+      status: 400,
+      msg: '失败',
+      data: null
+    }
+  }
+
+  public static collectPlaylist = async (ctx: Context) => {
+    const { uid, pid } = await ctx.request.body // 获取用户id和歌单id
+    const res = await UserHelper.createUserPlaylist({ uid, pid })
+    if (res.success) {
+      ctx.body = {
+        success: true,
+        status: 200,
+        msg: '成功',
+        data: res.data
+      }
+      return
+    }
+    ctx.body = {
+      success: false,
+      status: 400,
+      msg: '失败',
+      data: null
+    }
+  }
+
+  public static deleteSong = async (ctx: Context) => {
+    const { uid, sid } = await ctx.request.body // 获取用户id和歌单id
+    const res = await UserHelper.deleteUserSong({ uid, sid })
+    if (res.success) {
+      ctx.body = {
+        success: true,
+        status: 200,
+        msg: '成功',
+        data: res.data
+      }
+      return
+    }
+    ctx.body = {
+      success: false,
+      status: 400,
+      msg: '失败',
+      data: null
+    }
+  }
+
+  public static deletePlaylist = async (ctx: Context) => {
+    const { uid, pid } = await ctx.request.body // 获取用户id和歌单id
+    const res = await UserHelper.deleteUserPlaylist({ uid, pid })
     if (res.success) {
       ctx.body = {
         success: true,

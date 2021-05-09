@@ -11,30 +11,6 @@ interface pageParams {
 // }
 
 export default class PlayListHelper {
-  // public static findSingerList = async (params: pageParams) => {
-  //   const dbParams: singerParams = {}
-  //   if (params.type !== 0) dbParams.type = params.type
-  //   if (params.area !== -1) dbParams.area = params.area
-
-  //   const total = await Singer.count(dbParams)
-  //   const data = await Singer.find(dbParams).skip(params.limit * params.offset).limit(params.limit)
-  //   const hasMore = Number(total) > params.limit * params.offset + data.length
-  //   return {
-  //     status: 10001,
-  //     data,
-  //     total,
-  //     hasMore
-  //   }
-  // }
-
-  // public static findSinger = async (id: number) => {
-  //   const data = await Singer.findOne({ id: Number(id) })
-  //   return {
-  //     status: 10001,
-  //     data
-  //   }
-  // }
-
   public static findRecommend = async () => {
     const data = await PlayList.find().limit(16)
     return {
@@ -88,6 +64,29 @@ export default class PlayListHelper {
   public static findPlaylistDetail = async (id:number) => {
     try {
       const data = await PlayList.findOne({ id })
+      return {
+        success: true,
+        status: 200,
+        data,
+        msg: '成功调用接口!!!'
+      }
+    } catch (error) {
+      return {
+        success: false,
+        status: 400,
+        data: {},
+        msg: error.message || '数据交互时发生错误!!!'
+      }
+    }
+  }
+
+  public static findPlaylistsDetail = async (ids: number[]) => {
+    try {
+      const data = []
+      for (const id of ids) {
+        const playlist = await PlayList.findOne({ id })
+        if (playlist) data.push(playlist)
+      }
       return {
         success: true,
         status: 200,

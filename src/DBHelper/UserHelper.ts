@@ -87,14 +87,59 @@ export default class UserHelper {
     }
   }
 
-  public static findUserSong = async (params: any) => {
+  public static findUserSongIds = async (params: any) => {
     try {
       const songIds = await UserToSong.find({ artistId: ObjectId(params.id) })
-      const data:any = []
-      songIds.forEach(async (item:any) => {
-        const song = await Song.findOne({ id: Number(item.songId) })
-        if (song) data.push(song)
-      })
+      return {
+        success: true,
+        songIds,
+        msg: '成功调用接口!!!'
+      }
+    } catch (error) {
+      return {
+        success: false,
+        data: {},
+        msg: error.message || '数据交互时发生错误!!!'
+      }
+    }
+  }
+
+  public static findUserPlaylist = async (params: any) => {
+    try {
+      const data = await UserToPlaylist.find({ artistId: ObjectId(params.id) })
+      const playlistIds = data.map((item:any) => item.playlistId)
+      return {
+        success: true,
+        playlistIds,
+        msg: '成功调用接口!!!'
+      }
+    } catch (error) {
+      return {
+        success: false,
+        data: {},
+        msg: error.message || '数据交互时发生错误!!!'
+      }
+    }
+  }
+
+  public static createUserSong = async (params: any) => {
+    try {
+      const user = await User.findOne({ account: Number(params.uid) })
+      const song = await Song.findOne({ id: Number(params.sid) })
+      const data = {
+        artistId: user._id,
+        songId: song.id
+      }
+      const find = await UserToSong.findOne(data)
+      if (!user || !song || find) {
+        // 没找到用户或歌曲获已经收藏歌曲
+        return {
+          success: false,
+          data: {},
+          msg: '参数错误!!!'
+        }
+      }
+      await UserToSong.create(data)
       return {
         success: true,
         data,
@@ -109,14 +154,84 @@ export default class UserHelper {
     }
   }
 
-  public static findUserPlaylist = async (params: any) => {
+  public static createUserPlaylist = async (params: any) => {
     try {
-      const playlistIds = await UserToPlaylist.find({ artistId: ObjectId(params.id) })
-      const data: any = []
-      playlistIds.forEach(async (item: any) => {
-        const playlist = await PlayList.findOne({ id: Number(item.songId) })
-        if (playlist) data.push(playlist)
-      })
+      const user = await User.findOne({ account: Number(params.uid) })
+      const playlist = await PlayList.findOne({ id: Number(params.pid) })
+      const data = {
+        artistId: user._id,
+        playlistId: playlist.id
+      }
+      const find = await UserToPlaylist.findOne(data)
+      if (!user || !playlist || find) {
+        // 没找到用户或歌曲获已经收藏歌曲
+        return {
+          success: false,
+          data: {},
+          msg: '参数错误!!!'
+        }
+      }
+      await UserToPlaylist.create(data)
+      return {
+        success: true,
+        data,
+        msg: '成功调用接口!!!'
+      }
+    } catch (error) {
+      return {
+        success: false,
+        data: {},
+        msg: error.message || '数据交互时发生错误!!!'
+      }
+    }
+  }
+
+  public static deleteUserSong = async (params: any) => {
+    try {
+      const data = {
+        artistId: ObjectId(params.uid),
+        songId: params.sid
+      }
+      const find = await UserToSong.findOne(data)
+      if (!find) {
+        // 没找到记录
+        return {
+          success: false,
+          data: {},
+          msg: '参数错误!!!'
+        }
+      }
+      await UserToSong.remove(data)
+      return {
+        success: true,
+        data,
+        msg: '成功调用接口!!!'
+      }
+    } catch (error) {
+      return {
+        success: false,
+        data: {},
+        msg: error.message || '数据交互时发生错误!!!'
+      }
+    }
+  }
+
+  public static deleteUserPlaylist = async (params: any) => {
+    try {
+      const data = {
+        artistId: ObjectId(params.uid),
+        playlistId: params.pid
+      }
+      const find = await UserToPlaylist.findOne(data)
+      if (!find) {
+        // 没找到
+        return {
+          success: false,
+          data: {},
+          msg: '参数错误!!!'
+        }
+      }
+      await UserToPlaylist.remove(data)
       return {
         success: true,
         data,
