@@ -1,6 +1,6 @@
 import { Context } from 'koa'
 import DBHelper from '../DBHelper'
-const { TagHelper } = DBHelper
+const { TagHelper, CommentHelper } = DBHelper
 
 export default class CommomController {
   public static getTags = async (ctx: Context) => {
@@ -31,6 +31,26 @@ export default class CommomController {
         status: 200,
         msg: '成功获取数据',
         data: data.data
+      }
+      return
+    }
+    ctx.body = {
+      success: true,
+      status: 400,
+      msg: '未成功获取数据',
+      data: {}
+    }
+  }
+
+  public static getSearch = async (ctx: Context) => {
+    const { keyword, limit, offset, type } = ctx.query
+    const res = await CommentHelper.findSearch({ keyword, limit, offset, type })
+    if (res.success) {
+      ctx.body = {
+        success: true,
+        status: 200,
+        msg: '成功获取数据',
+        data: res.data
       }
       return
     }

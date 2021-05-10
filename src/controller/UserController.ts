@@ -1,7 +1,7 @@
 import { Context } from 'koa'
 import DBHelper from '../DBHelper'
 import PlayListHelper from '../DBHelper/PlaylistHelper'
-const { UserHelper, SongHelper } = DBHelper
+const { UserHelper, SongHelper, CommentHelper } = DBHelper
 
 export default class UserController {
   public static Login = async (ctx:Context) => {
@@ -171,6 +171,26 @@ export default class UserController {
   public static deletePlaylist = async (ctx: Context) => {
     const { uid, pid } = await ctx.request.body // 获取用户id和歌单id
     const res = await UserHelper.deleteUserPlaylist({ uid, pid })
+    if (res.success) {
+      ctx.body = {
+        success: true,
+        status: 200,
+        msg: '成功',
+        data: res.data
+      }
+      return
+    }
+    ctx.body = {
+      success: false,
+      status: 400,
+      msg: '失败',
+      data: null
+    }
+  }
+
+  public static postComment = async (ctx: Context) => {
+    const { uid, pid, content } = await ctx.request.body // 获取用户id和歌单id
+    const res = await CommentHelper.createComment({ uid, pid, content })
     if (res.success) {
       ctx.body = {
         success: true,

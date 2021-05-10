@@ -1,6 +1,6 @@
 import { Context } from 'koa'
 import DBHelper from '../DBHelper'
-const { PlaylistHelper } = DBHelper
+const { PlaylistHelper, CommentHelper } = DBHelper
 
 export default class CommomController {
   public static getRecommend = async (ctx:Context) => {
@@ -71,6 +71,26 @@ export default class CommomController {
     const query = ctx.query
     const id:number = Number(query.id)
     const res = await PlaylistHelper.findPlaylistDetail(id)
+    if (res.success) {
+      ctx.body = {
+        success: true,
+        status: 200,
+        msg: '成功获取数据',
+        data: res.data
+      }
+      return
+    }
+    ctx.body = {
+      success: false,
+      status: 400,
+      msg: '未成功获取数据',
+      data: null
+    }
+  }
+
+  public static getComment = async (ctx: Context) => {
+    const { id } = ctx.query
+    const res = await CommentHelper.findComment(id)
     if (res.success) {
       ctx.body = {
         success: true,

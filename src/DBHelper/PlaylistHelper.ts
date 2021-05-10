@@ -41,7 +41,6 @@ export default class PlayListHelper {
       const dbParams = params.type === '全部' ? {} : { tags: { $elemMatch: { $eq: params.type } } }
       const total = await PlayList.count(dbParams)
       const playlistData = await PlayList.find(dbParams).skip(params.offset).limit(params.limit)
-      // const hasMore = Number(total) > params.limit * params.offset + data.length
       return {
         success: true,
         status: 200,

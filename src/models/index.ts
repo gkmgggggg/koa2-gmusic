@@ -8,5 +8,6 @@ import Mv from './Mv'
 import Album from './Album'
 import UserToPlaylist from './UserToPlaylist'
 import UserToSong from './UserToSong'
+import Comment from './Comment'
 
-export { User, PlayList, Song, Tag, Banner, Singer, Mv, Album, UserToPlaylist, UserToSong }
+export { User, PlayList, Song, Tag, Banner, Singer, Mv, Album, UserToPlaylist, UserToSong, Comment }

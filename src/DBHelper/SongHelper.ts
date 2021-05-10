@@ -98,29 +98,6 @@ export default class SongHelper {
         if (song && song.artistId) {
           const artist = await Singer.findOne({ id: parseInt(song.artistId) })
           data.push({ song, artist })
-
-          // 判断歌曲是否被收藏
-          // const token = ctx.request.headers.token
-          // if (token !== null) {
-          //   const secret = 'I_LOVE_NICEMUSIC'
-          //   const payload = await verify(token, secret)
-          //   const {
-          //     phone,
-          //     password
-          //   } = payload
-          //   let isCollected = false
-          //   const user = await db.findOne('user', {
-          //     account: phone.toString()
-          //   })
-          //   if (user !== null) {
-          //     const result = await db.findOne('user_to_song', {
-          //       artistId: ObjectId(user._id),
-          //       songId: song.id.toString()
-          //     })
-          //     if (result !== null) isCollected = true
-          //   }
-          //   song.isCollected = isCollected
-          // }
         }
       }
       return {
