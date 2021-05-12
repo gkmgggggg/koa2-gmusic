@@ -107,4 +107,39 @@ export default class CommomController {
       data: null
     }
   }
+
+  public static getCreatePlaylist = async (ctx: Context) => {
+    const { uid } = ctx.query
+    const res = await PlaylistHelper.findCreatePlaylist(uid)
+    if (res.success) {
+      ctx.body = {
+        success: true,
+        status: 200,
+        msg: '成功获取数据',
+        data: res.data
+      }
+      return
+    }
+    ctx.body = {
+      success: false,
+      status: 400,
+      msg: '未成功获取数据',
+      data: null
+    }
+  }
+
+  public static addSong = async (ctx: Context) => {
+    const { pids, sid } = ctx.query
+    const pidArr = pids.split(',')
+    pidArr.map(async (pid:string) => {
+      const playlist:any = await PlaylistHelper.findPlaylistById(pid)
+      await PlaylistHelper.updataPlaylist({ pid, sid, songList: playlist.data.songList })
+    })
+    ctx.body = {
+      success: true,
+      status: 200,
+      msg: '成功获取数据',
+      data: {}
+    }
+  }
 }

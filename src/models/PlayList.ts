@@ -8,7 +8,7 @@ const playlistSchema = new Schema({
   songList: Array,
   coverImgUrl: String,
   playCount: Number,
-  creatorId: String,
+  creatorId: String || Object,
   createTime: Number,
   updateTime: Number
 })

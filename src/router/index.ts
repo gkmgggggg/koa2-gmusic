@@ -24,6 +24,8 @@ router.get('/api/playlist/recommend', playlistController.getRecommend)
 router.get('/api/playlist/tag', CommomController.getTags)
 router.get('/api/playlist/detail', playlistController.getDetail)
 router.get('/api/playlist/comment', playlistController.getComment)
+router.get('/api/playlist/created', playlistController.getCreatePlaylist)
+router.get('/api/playlist/addSong', playlistController.addSong)
 
 router.get('/api/singer/recommend', SingerController.getRecommendSinger)
 router.get('/api/singer/list', SingerController.getSingerList)
@@ -41,5 +43,6 @@ router.post('/api/user/delete/song', UserController.deleteSong)
 router.post('/api/user/delete/playlist', UserController.deletePlaylist)
 router.post('/api/user/register', UserController.Register)
 router.post('/api/user/postComment', UserController.postComment)
+router.post('/api/user/postPlaylist', UserController.postPlaylist)
 
 export default router

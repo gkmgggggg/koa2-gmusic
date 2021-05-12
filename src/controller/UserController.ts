@@ -207,4 +207,24 @@ export default class UserController {
       data: null
     }
   }
+
+  public static postPlaylist = async (ctx: Context) => {
+    const { name, desc, tagList, createId } = await ctx.request.body // 获取用户id和歌单id
+    const res = await PlayListHelper.createPlaylist({ name, desc, tagList, createId })
+    if (res.success) {
+      ctx.body = {
+        success: true,
+        status: 200,
+        msg: '成功',
+        data: res.data
+      }
+      return
+    }
+    ctx.body = {
+      success: false,
+      status: 400,
+      msg: '失败',
+      data: null
+    }
+  }
 }
